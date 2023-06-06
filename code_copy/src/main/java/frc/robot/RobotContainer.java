@@ -15,6 +15,8 @@ import frc.robot.commands.ClawCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ClawSubsys;
+import frc.robot.Constants;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -26,7 +28,7 @@ public class RobotContainer {
   private final Joystick stick = new Joystick(2);
   private JoystickButton[] buttons = new JoystickButton[12];
 
-  private final CommandPS4Controller farhiPS4 = new CommandPS4Controller(1);
+  private final CommandPS4Controller Controls_ps4 = new CommandPS4Controller(1);
   private final CommandPS4Controller ps4 = new CommandPS4Controller(0);
   private final ArmSubSys arm = new ArmSubSys();
   private final driverSubsys driver = new driverSubsys();
@@ -51,8 +53,8 @@ public class RobotContainer {
     return this.door;   
   }
 
-  public CommandPS4Controller getFarhi() {
-    return this.farhiPS4;
+  public CommandPS4Controller get_Controls_ps4() {
+    return this.get_Controls_ps4;
   }
 
   public ArmSubSys getArmSubSys(){
@@ -82,13 +84,13 @@ public class RobotContainer {
     // cancelling on release.
     
     //Commands for the controls driver
-    farhiPS4.circle().whileTrue(new DoorCommand(1.5));
-    farhiPS4.square().whileTrue(new DoorCommand(-2.75));
-    farhiPS4.triangle().whileTrue(new ClawCommand(-0.85));
-    farhiPS4.cross().whileTrue(new ClawCommand(0.85));
+    Controls_ps4.circle().whileTrue(new DoorCommand(Constants.door.open_power));
+    Controls_ps4.square().whileTrue(new DoorCommand(Constants.door.close_power));
+    Controls_ps4.triangle().whileTrue(new ClawCommand(Constants.claw.eject_power));
+    Controls_ps4.cross().whileTrue(new ClawCommand(Constants.claw.insert_power));
     //Commands for the robot driver
-    ps4.circle().whileTrue(new ChangeSpeedCommand(0.3));
-    ps4.R2().whileTrue(new ChangeSpeedCommand(0.95));
+    ps4.circle().whileTrue(new ChangeSpeedCommand(Constants.drive.change_to_low_speed));
+    ps4.R2().whileTrue(new ChangeSpeedCommand(Constants.drive.change_to_high_speed));
   }
 
   /**
